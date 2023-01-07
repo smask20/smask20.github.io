@@ -1,0 +1,41 @@
+.menu{
+    display:block;
+    position:fixed;
+    left:0;
+    width:500px;
+    height:500px;
+    background:rgba(236,236,236,0.6);
+    border:2px;
+    border-radius:10px;
+    box-shadow:0 0 20px 5px #4a4a4a;
+}
+.bar{
+    width:100%;
+    height:25px;
+    background:#e1e1e1;
+    border-radius:10px 10px 0 0;
+}
+.bottons{
+    width:100px;
+    height:35px;
+    display:flex;
+}
+.bottons div{
+    width:15px;
+    height:15px;
+    border-radius:50%;
+    margin:5px 5px;
+    cursor:pointer;
+}
+.close{
+    background:#ff5f57;
+    boder:1px solid #e45952;
+}
+.hide{
+    background:#ffdb2d;
+    boder:1px solid #e1a73e;
+}
+.full{
+    background:#27c93f;
+    boder:1px solid #2bac2d;
+}
