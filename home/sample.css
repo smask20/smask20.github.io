@@ -64,10 +64,87 @@ p.windowtitle{
 .contents{
     width: 100%;
     height: 100%;
-    background: #fff;
     border-radius: 0 0 10px 0;
+    display:flex;
 }
 .item{
     left:0;
 }
+.insidebar{
+    width:25px;
+    height:100%;
+    background:#808080;
+}
+.incontents{
+    width:100%;
+    height:100%;
+    background:#fff;
+    border-radius:0 0 10px 0;
+}
+.subwindow{
+    width: 900px;
+    height: 200px;
+    background-color: rgba(236,236,236,0.6);
+    border: 1px solid #696969;
+    border-radius: 10px;
+    box-shadow: 0 0 20px 5px #4a4a4a;
+    z-index: 0;
+}
+.subtitlebar{
+    width: 100%;
+    height: 25px;
+    background: #696969;
+    border-bottom: 1px solid #696969;
+    border-radius: 10px 10px 0 0;
+    display: flex;
+    align-items: center;
+}
+p.subwindowtitle{
+    width: 100%;
+    margin-left: calc( -55px - 10px);
+    font-size: 12px;
+    text-align: center;
+    cursor: default;
+}
+.subbuttons{
+    width: 100px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    margin: 0 5px;
+}
+.subbuttons div{
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    margin: 0 3px;
+    cursor: pointer;
+}
+.subbuttons .subclose{
+    text-align:center;
+    background: #dc143c;
+    border: 1px solid #e45952;
+}
+.subbuttons .subhide{
+    text-align:center;
+    background: #a9a9a9;
+    border: 1px solid #a9a9a9;
+}
+.subbuttons .subfull{
+    text-align:center;
+    background: #a9a9a9;
+    border: 1px solid #a9a9a9;
+}
+.subwindowinner{
+    width: 100%;
+    height: calc( 100% - 20px - 1px );
+    display: flex;
+}
+.subcontents{
+    width: 100%;
+    height: 100%;
+    background: #8b0000;
+    border-radius: 0 0 10px 10px;
+}
+
 
