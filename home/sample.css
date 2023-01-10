@@ -122,8 +122,8 @@ p.subwindowtitle{
 }
 .subbuttons .subclose{
     text-align:center;
-    background: #dc143c;
-    border: 1px solid #e45952;
+    background: #a9a9a9;
+    border: 1px solid #a9a9a9;
 }
 .subbuttons .subhide{
     text-align:center;
@@ -143,8 +143,11 @@ p.subwindowtitle{
 .subcontents{
     width: 100%;
     height: 100%;
-    background: #8b0000;
+    background: #f0f8ff;
     border-radius: 0 0 10px 10px;
 }
-
-
+.box{
+    width:100%;
+    height:100%;
+    background:#f0f8ff;
+}
