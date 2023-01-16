@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8">
+    <title>高専生の気まぐれな数学の記事</title>
+    <link rel="stylesheet" href="math.css">
+  </head>
+  <body>
+    <h1 align="center">プログラミングに関する数学</h1>
+    <hr color="green">
+    <br>
+    <nav class="menu">
+      <div class="bar">
+	<div class="bottons">
+	  <div class="close"></div>
+	  <div class="hide"></div>
+	  <div class="full"></div>
+	</div>
+      </div>
+      <ol>
+	<li><div class="item"><a href="https://smask20.github.io/home/index.html">HOME</a></div></li>
+	<li><div class="item">math(順次追加予定)</div></li>
+	<li><div class="item">programming(順次追加予定)</div></li>
+	<li>
+	  <div class="item">
+	    <details>
+	      <summary>anime,comic</summary>
+	      <ul>
+		<li><a href="https://smask20.github.io/first/index.html">初めてのhtml</a></li>
+	      </ul>
+	    </details>
+	  </div>
+	</li>
+      </ol>
+    </nav>
+    <div class="top">
+      こんにちは私の名前は「そ」(仮名)です。高専の学生です。<br>
+      今から私がプログラミングの授業で学んだ新しいことについて紹介しようと思います。<br>
+      先に内容を端的にまとめると積分に関することです。<br>
+    </div>
+    <div class="detail">
+      <h3><font color="green">改めて紹介する積分の内容について</font></h3>
+      私は積分に関しては高専の２年生になってから学び始めたのですが(一般高校で言う高校2年生)、<br>
+      その2年生の終わりごろにプログラミングに出された課題が台形公式、シンプソンの公式<br>
+      を用いて三次以下の関数の面積を求めるプログラムを作成せよと言うものでした。<br>
+      私は積分自体のプログラムは<a href="https://en.m.wikipedia.org/wiki/C%2B%2B">c++</a>で組んでいたことがあった
+      のですが、自分は思っている以上に理解できていなかったので、<br>
+      自分の復習としてこの記事を書こうと思います。<br>
+      <h3>この記事の内容</h3>
+      <table border="1">
+	<tr><td>1.積分とは</td></tr>
+	<tr><td>2.台形公式について</td></tr>
+	<tr><td>3.シンプソンの公式について</td></tr>
+	<tr><td>4.実際に書いてみたコード(C言語)</td></tr>
+      </table>
+      <h3>1.積分とは</h3>
+      まず改めて積分について説明しようと思います。積分とは簡単に言うと対象とするグラフが描く面積を求めることです。<br>
+      例えばy＝xのグラフの0から1までの面積は小学生の知識で解くと
+      <math>
+	<mo>S</mo>
+	<mo>=</mo>
+	<mn>1</mn>
+	<mo>×</mo>
+	<mn>1</mn>
+	<mo>×</mo>
+	<mfrac>
+	  <mrow>
+	    <mn>1</mn>
+	  </mrow>
+	  <mn>2</mn>
+	</mfrac>
+      </math>
+      で0.5ですよね。<br>
+      それを高校積分の知識で解くと、対象とするグラフをまず
+      <a href="https://goukaku-suppli.com/archives/38126">
+	不定積分
+      </a>
+      したグラフに変換すると、
+      <math>	
+	<mo>∫</mo>
+	<mi>x</mi>
+	<mi>d</mi>
+	<mi>x</mi>
+	<mo>=</mo>
+	<mfrac>
+	  <mrow>
+	    <mn>1</mn>
+	  </mrow>
+	  <mn>2</mn>
+	</mfrac>
+	<msup>
+	  <mi>x</mi>
+	  <mn>2</mn>
+	</msup>
+      </math>
+      となり、<br>
+      その定積分を計算すると、
+      <math>
+	<mfrac>
+	  <mrow>
+	    <mn>1</mn>
+	  </mrow>
+	  <mn>2</mn>
+	</mfrac>
+	<mo>×</mo>
+	<msup>
+	  <mn>1</mn>
+	  <mn>2</mn>
+	</msup>
+	<mo>-</mo>
+	<mfrac>
+	  <mrow>
+	    <mn>1</mn>
+	  </mrow>
+	  <mn>2</mn>
+	</mfrac>
+	<mo>×</mo>
+	<msup>
+	  <mn>0</mn>
+	  <mn>2</mn>
+	</msup>
+	<mo>=</mo>
+	<mn>0.5</mn>
+      </math>
+      となります。<br>
+      今回の場合は三次以下の定積分ですので、知識としてはこれだけで事足ります。<br>
+      <h3>2.台形公式について</h3>
+      台形公式とは、面積を求めたい対象のグラフをいくつかの座標でくぎり、その区切った座標から垂線をおろし、<br>
+      それで出来上がった図形を台形として面積を求めていく方法です。<br>
+      多分イラストの方がわかりやすいのでイラストを貼っておきます。↓<br>
+      <img src="trapezoid.png" alt="台形公式" style="width:300px; height:200px;"><br>
+      上記の場合、まず面積を求めたい区間をa ~ bと定めています。そして、ここで注意したいことなのですが、<br>
+      私の作成したプログラムでは分ける区間は均等にしています。具体的には分けた区間の幅をh、分割数をnとすると、<br>
+      <math>
+	<mi>h</mi>
+	<mo>=</mo>
+	<mfrac>
+	  <mrow>
+	    <mi>b</mi>
+	    <mo>-</mo>
+	    <mi>a</mi>
+	  </mrow>
+	  <mi>n</mi>
+	</mfrac>
+      </math>
+      となると言うことです。それをもとに複数の台形の面積を求めていけば、本当の面積により近い値を得られます。<br>
+      今回はプログラムを理解するには理屈が分かれば良いので、さらに詳しい説明は割愛します。<br>
+      <h3>3.シンプソンの公式について</h3>
+      勘の良い方ならもうお気づきかも知れませんが、台形公式の場合、分割して台形を形成していった時に、<br>
+      対象とするグラフと一つ一つの台形の間の幅が大きいと感じませんでしたか？<br>
+      その点を修正したのがシンプソンの公式です。(雑に言うと)<br>
+      こちらも言葉よりもイラストの方がわかりやすいと思うので以下にイラストを貼っておきます。↓<br>
+      <img src="simpson.png" alt="シンプソンの公式" style="width:400px; height:200px;"><br>
+      シンプソンの公式の定義上、式としては以下で表されます。<br>
+      <math>
+	<mi>S</mi>
+	<mo>=</mo>
+	<mfrac>
+	  <mrow>
+	    <mi>b</mi>
+	    <mo>-</mo>
+	    <mi>a</mi>
+	  </mrow>
+	  <mn>6</mn>
+	</mfrac>
+	<mo>{</mo>
+	<mi>f</mi>
+	<mfenced>
+	  <mi>a</mi>
+	</mfenced>
+	<mo>+</mo>
+	<mn>4</mn>
+	<mi>f</mi>
+	<mfenced>
+	  <mfrac>
+	    <mrow>
+	      <mi>a</mi>
+	      <mo>+</mo>
+	      <mi>b</mi>
+	    </mrow>
+	    <mn>2</mn>
+	  </mfrac>
+	</mfenced>
+	<mo>+</mo>
+	<mi>f</mi>
+	<mfenced>
+	  <mi>b</mi>
+	</mfenced>
+	<mo>}</mo>
+      </math><br>
+      プログラムでは
+      <math>
+	<mfrac>
+	  <mrow>
+	    <mi>h</mi>
+	  </mrow>
+	  <mn>3</mn>
+	</mfrac>
+      </math>
+      の方でプログラムを実行していますが、理屈としては上記でいいと思います。<br>
+      台形公式の場合対象とするグラフと形成した台形の間の幅が大きいと言いましたが、シンプソンの公式の場合、<br>
+      その幅を二次曲線で表しているため、グラフの形状によっては台形公式よりも誤差が小さくなります。<br>
+      ただ、形状によるとお伝えした根拠として、例えば一次関数のグラフの面積を求めたいと思ったら、<br>
+      圧倒的に台形公式の方がより正確に近似値を求めることができますよね。<br>
+      なぜかというと、対象のグラフと台形の幅がちょうど重なるからです。一方シンプソンの公式の場合<br>
+      二次曲線で幅を表しているため、直線との幅がより離れてしまいます。<br>
+      このように台形公式、シンプソンの公式にもより正確に求められるグラフとそうでないグラフがあるので使い分けが必要ですね。<br>
+      <h3>4.実際に書いてみたコード(C言語)</h3>
+      <div class="window">
+	<div class="titlebar">
+	  <div class="buttons">
+	    <div class="close"></div>
+	    <div class="hide"></div>
+	    <div class="full"></div>
+	  </div>
+	  <p class="windowtitle">code</p>
+	</div>
+	<div class="windowinner">
+	  <div class="sidebar">
+	  </div>
+	  <div class="contents">
+	    <pre>
+	      <code class="prettyprint">
+		<script src="https://cdn.rawgit.com/google/code-prettify/master/loader/run_prettify.js"></script>
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+
+// 関数の補間点を作成する関数。
+void calc_interpolation(double **data, double *coef, double a, double b, int n);
+//シンプソン公式
+double simpson(double **data, int n);
+//台形公式
+double trapezoid(double **data, int n);
+
+int main(void) {
+  double a, b, tmp;
+  double coef[4];
+  int i, n, sign = 1;
+  double **data;
+
+  printf("3次関数 c3*x^3 + c2*x^2 + c1*x + c0 "
+         "の係数をc3,c2,c1,c0の順に入力してください\n");
+  for (i = 3; i >= 0; i--) {
+    scanf("%lf", &coef[i]);
+  }
+
+  printf("積分区間[a,b]のaとbを入力してください\n");
+  scanf("%lf %lf", &a, &b);
+  // a<=bを担保するための処理
+  if (a > b) {
+    tmp = a;
+    a = b;
+    b = tmp;
+    sign = -1;
+  }
+
+  // 偶数が入力されるまで繰り返し入力要求
+  do {
+    printf("積分区間の分割数を入力してください（偶数限定）\n");
+    scanf("%d", &n);
+  } while (n % 2 == 1);
+
+  // 配列の動的確保
+  data = (double **)malloc((size_t)(n + 1) * sizeof(double *));
+  for (i = 0; i < n + 1; i++) {
+    data[i] = (double *)malloc((size_t)2 * sizeof(double));
+  }
+
+  // 積分に用いる補間点の計算
+  calc_interpolation(data, coef, a, b, n);
+
+  // 結果の出力部
+  // 定積分の定義に従った計算を追加する場合は，下の行を有効化
+  // printf("定義による計算　：%f\n", sign * definition(data, n));
+  printf("台形公式　　　　：%f\n", sign * trapezoid(data, n));
+  printf("シンプソンの公式：%f\n", sign * simpson(data, n));
+
+  // 動的確保した領域の解放
+  for (i = 0; i < n + 1; i++) {
+    free(data[i]);
+  }
+  free(data);
+
+  return 0;
+}
+
+// 補間点の計算。座標値(data[i][0],data[i][1])をn+1個作成
+void calc_interpolation(double **data, double *coef, double a, double b,int n) {
+  double h;
+  int i, j;
+
+  // 補間点のx方向の幅を計算
+  h = fabs((b - a) / n);
+
+  // 補間点を計算してdataへ格納
+  for (i = 0; i < n + 1; i++) {
+    data[i][0] = a + h * i;
+    data[i][1] = 0.0;
+    for (j = 3; j >= 0; j--) {
+      data[i][1] += coef[j] * pow(data[i][0], j);
+    }
+  }
+}
+
+double simpson(double **data,int n){
+  int i;
+  double ans,h;
+
+  ans=0;
+  h=(data[n][0]-data[0][0])/n;
+
+  for(i=0; i<n-2; i+=2){
+    ans+=h/3*(data[i][1]+4*data[i+1][1]+data[i+2][1]);
+  }
+
+  return ans;
+}
+
+double trapezoid(double **data, int n){
+  int i;
+  double ans,h;
+
+  ans=0;
+  h=(data[n][0]-data[0][0])/n;
+
+  for(i=0; i<n; i++){
+    ans+=((data[i][1]+data[i+1][1])*h)/2;
+  }
+
+  return ans;
+}
+	      </code>
+	    </pre>
+	  </div>
+	</div>
+      </div>
+    </div>
+    <div class="last">
+      <h3>最後に</h3>
+      <hr color="green">
+      今回はプログラミング数学のことについての記事でした。改めて積分についてプログラムを書いてみて<br>
+      色々気づいたことがありましたが、さらにプログラミングに慣れてきたら自分オリジナルの数学に関する関数<br>
+      を作成し、github上に公開したいと思います。
+    </div>
+  </body>
+</html>
+	
+      
+
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+	  
